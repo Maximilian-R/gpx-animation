@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Render Tracks</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <link href="./styles.css" rel="stylesheet" />
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script
+      src="https://unpkg.com/leaflet.motion@0.3.2/dist/leaflet.motion.min.js"
+      integrity="sha384-JpY6ZoAYW/J79UElrJZEqh46gy6JvzbJBTFrOaPZy8Ylnsw1Pim+HCttMIySowDW"
+      crossorigin=""
+    ></script>
+    <script defer src="./main.js" type="module"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div class="gui-layer">
+      <div id="timeline-gui"></div>
+      <div id="leaderboard-gui"></div>
+      <div id="settings-gui"></div>
+    </div>
+  </body>
+</html>

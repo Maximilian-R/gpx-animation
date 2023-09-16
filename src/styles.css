@@ -1,0 +1,169 @@
+html,
+body {
+  margin: 0;
+}
+
+#settings-gui {
+  z-index: 1000;
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+}
+
+#settings-gui > div {
+  max-height: calc(100vh - 6rem);
+  overflow-y: scroll;
+}
+
+#leaderboard-gui {
+  z-index: 1000;
+  position: fixed;
+  top: 6rem;
+  left: 1rem;
+  bottom: 4rem;
+}
+
+#leaderboard-gui > div {
+  overflow-y: scroll;
+  max-height: 100%;
+}
+
+#timeline-gui {
+  z-index: 1000;
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  left: 1rem;
+}
+
+#timeline-gui .tp-sldtxtv_t {
+  display: none;
+}
+
+#map {
+  height: 100vh;
+}
+
+.marker {
+  display: grid;
+  place-items: center;
+  background-color: rgba(255, 162, 70, 0.75);
+  font-weight: 900;
+  font-family: monospace;
+  color: white;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+}
+
+.marker.finished {
+  background-color: rgba(67, 67, 67, 0.75);
+}
+
+.leaflet-div-icon {
+  background: none;
+  border: none;
+}
+
+.tp-leaderboard > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.tp-leaderboard > ul > li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--in-fg);
+  background: var(--in-bg);
+  border-radius: 2px;
+}
+
+.tp-leaderboard > ul > li[disabled] {
+  opacity: 0.5;
+}
+
+.tp-leaderboard > ul > li > div:first-of-type {
+  background: rgba(255, 162, 70, 0.75);
+  color: var(--btn-fg);
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.tp-leaderboard > ul > li > div:nth-of-type(2) {
+  flex-shrink: 1;
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 20ch;
+  white-space: nowrap;
+}
+
+.tp-leaderboard > ul > li > div:last-of-type {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.tp-leaderboard > ul > li > button {
+  background-color: var(--btn-bg);
+  color: var(--btn-fg);
+  border-radius: 2px;
+  height: 20px;
+  width: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.tp-file-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: var(--in-fg);
+}
+
+.tp-file-drop-zone {
+  height: 60px;
+  display: grid;
+  place-items: center;
+  border: 2px dotted var(--btn-bg);
+  color: var(--btn-bg);
+}
+.tp-file-drop-zone.drag-enter {
+  background-color: #adafb84a;
+}
+
+.tp-file-status {
+  display: flex;
+  flex-direction: column;
+}
+progress {
+  display: none;
+  height: 0.25rem;
+  width: 100%;
+  border-radius: 0.5rem;
+}
+progress[loading] {
+  display: block;
+}
+progress::-webkit-progress-bar {
+  background-color: var(--btn-bg);
+  transition: width 400ms ease-in-out;
+  border-radius: 0.5rem;
+}
+progress::-webkit-progress-value {
+  background-color: rgba(82, 255, 70, 0.75);
+  border-radius: 0.5rem;
+}
+
+.gui-layer {
+  /* inset: 0;
+        z-index: 1000;
+        display: grid; */
+}
