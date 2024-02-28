@@ -2,4 +2,4 @@
 
 Animate multiple gpx-paths simultaneously on a map for a visible comparison.
 
-![Screeshot GPX-Animation Application](./thumbnial.png)
+![Screeshot GPX-Animation Application](./thumbnail.png)
