@@ -1,4 +1,4 @@
-import { parse } from "../../src/parser/gpx-parser.js";
+import { parse } from "../../parser/gpx-parser.js";
 import { readFiles } from "./file-reader.js";
 
 export class FileUploadView {

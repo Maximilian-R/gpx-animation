@@ -1,5 +1,5 @@
 import { Pane } from "https://unpkg.com/tweakpane@4.0.3/dist/tweakpane.js";
-import { LeaderboardPluginBundle } from "../../tweakpane-plugin/leaderboard/index.js";
+import { LeaderboardPluginBundle } from "../tweakpane-plugin/leaderboard/index.js";
 
 export default class LeaderboardPane {
   constructor(settings) {

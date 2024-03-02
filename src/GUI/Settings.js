@@ -1,5 +1,5 @@
 import { Pane } from "https://unpkg.com/tweakpane@4.0.3/dist/tweakpane.js";
-import { FileUploadPluginBundle } from "../../tweakpane-plugin/file-upload/index.js";
+import { FileUploadPluginBundle } from "../tweakpane-plugin/file-upload/index.js";
 
 export default class SettingsPane {
   constructor(settings, map) {
