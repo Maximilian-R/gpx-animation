@@ -4,10 +4,9 @@ importScripts(
 const parser = new XMLParser({ ignoreAttributes: false });
 
 addEventListener("message", (event) => {
-  const files = event.data.map((file, index) => {
+  event.data.forEach((file, index) => {
     const parsed = parser.parse(file.text);
-    postMessage(index + 1);
-    return parsed;
+    postMessage({ index: index + 1, file: parsed });
   });
-  postMessage(files);
+  postMessage(true);
 });

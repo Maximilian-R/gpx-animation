@@ -1,20 +1,26 @@
-export async function parse(files, onProgress) {
+export async function parse(files, onProgress, onFail) {
   if (window.Worker) {
     const worker = new Worker("./parser/worker.js");
+    const parsedFiles = [];
     const promise = new Promise((resolve, reject) => {
-      worker.onmessage = (event) => {
-        if (typeof event.data === "number") {
-          onProgress(event.data);
+      worker.onmessage = ({ data }) => {
+        if (typeof data === "boolean") {
+          resolve(files);
         } else {
-          resolve(event.data);
+          try {
+            parsedFiles.push(toObject(data.file, files[data.index]));
+          } catch {
+            onFail(data.index);
+          }
+          onProgress(data.index);
         }
       };
       worker.postMessage(files);
     });
-    const jsonFiles = await promise;
+    await promise;
     worker.terminate();
 
-    return jsonFiles.map((json, index) => toObject(json, files[index].name));
+    return parsedFiles;
   } else {
     console.error("Web Worker not supported");
     throw Error();
@@ -22,11 +28,13 @@ export async function parse(files, onProgress) {
 }
 
 function toObject(file, name) {
-  const points = file.gpx.trk.trkseg.trkpt.map((pt) => ({
-    lat: Number(pt["@_lat"]),
-    lng: Number(pt["@_lon"]),
-    time: pt.time,
-  }));
+  const trk = file.gpx.trk;
+  const points =
+    trk.trkseg.trkpt.map((pt) => ({
+      lat: Number(pt["@_lat"]),
+      lng: Number(pt["@_lon"]),
+      time: pt.time,
+    })) ?? [];
 
   const distance = points.reduce((acc, curr, index) => {
     if (index === 0) return 0;
@@ -35,13 +43,12 @@ function toObject(file, name) {
 
   const gpxObject = {
     fileName: name,
-    trackName: file.gpx.trk.name,
+    trackName: trk.name,
     points,
     distance,
     meta: {
       time: file.gpx.metadata.time,
     },
   };
-
   return gpxObject;
 }

@@ -33,16 +33,26 @@ export class FileUploadView {
       const totalFiles = e.dataTransfer.items.length;
       message.textContent = `Reading file 0 of ${totalFiles}`;
       this.progress.toggleAttribute("loading", true);
+      let errors = 0;
       const files = await readFiles([...e.dataTransfer.items]);
-      const items = await parse(files, (index) => {
-        message.textContent = `Reading file ${index} of ${totalFiles}`;
-        this.progress.setAttribute("value", (index / totalFiles) * 100);
-      });
+      const items = await parse(
+        files,
+        (index) => {
+          message.textContent = `Reading file ${index} of ${totalFiles}`;
+          this.progress.setAttribute("value", (index / totalFiles) * 100);
+        },
+        (index) => {
+          errors++;
+        }
+      );
       config.value.rawValue = {
         add: items,
       };
 
       message.textContent = `Parsed ${items.length} files`;
+      if (errors > 0) {
+        message.textContent += ` - Failed to parse ${errors} files`;
+      }
     });
 
     this.status = host.createElement("div");
