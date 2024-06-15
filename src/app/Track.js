@@ -26,6 +26,10 @@ export default class Track {
     });
   }
 
+  get date() {
+    return this.gpx.meta.time.slice(0, 10);
+  }
+
   get points() {
     return this.gpx.points;
   }

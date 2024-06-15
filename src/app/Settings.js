@@ -13,6 +13,11 @@ const SETTINGS = {
     target: 0,
   },
   filter: {
+    date: {
+      on: false,
+      from: "2000-01-01",
+      to: "2025-01-01",
+    },
     start: {
       on: false,
       latlng: { x: 0, y: 0 },

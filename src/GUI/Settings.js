@@ -66,14 +66,20 @@ export default class SettingsPane {
   }
 
   setupFilter(animator) {
-    const folder = this.pane.addFolder({ title: "Filter" });
+    const filtersFolder = this.pane.addFolder({
+      title: "Filters",
+    });
 
-    const createFilter = (property, name) => {
+    const createLocationFilter = (property, name) => {
+      const folder = filtersFolder.addFolder({
+        title: `${name} location`,
+        expanded: false,
+      });
       const onController = folder.addBinding(
         this.settings.filter[property],
         "on",
         {
-          label: `Enable ${name} filter`,
+          label: `Enable`,
         }
       );
       const radiusController = folder.addBinding(
@@ -85,7 +91,7 @@ export default class SettingsPane {
           max: 5000,
           step: 50,
           disabled: true,
-          hidden: true,
+          hidden: false,
         }
       );
       const latlngController = folder.addBinding(
@@ -96,18 +102,16 @@ export default class SettingsPane {
           y: { min: -90, max: 90 },
           x: { min: -180, max: 180 },
           disabled: true,
-          hidden: true,
+          hidden: false,
         }
       );
 
+      const filter = animator[property + "Filter"];
       onController.on("change", (event) => {
-        radiusController.hidden = !event.value;
         radiusController.disabled = !event.value;
-        latlngController.hidden = !event.value;
         latlngController.disabled = !event.value;
         filter.setOn(event.value);
       });
-      const filter = animator[property + "Filter"];
       radiusController.on("change", (event) => {
         filter.resize(event.value);
         if (event.last) {
@@ -124,9 +128,53 @@ export default class SettingsPane {
       });
     };
 
-    createFilter("start", "Start");
-    createFilter("through", "Through");
-    createFilter("end", "End");
+    const createDateFilter = (property, name) => {
+      const folder = filtersFolder.addFolder({
+        title: `${name} range`,
+        expanded: false,
+      });
+      const onController = folder.addBinding(
+        this.settings.filter[property],
+        "on",
+        {
+          label: `Enable`,
+        }
+      );
+      const fromController = folder.addBinding(
+        this.settings.filter[property],
+        "from",
+        {
+          label: `From`,
+          disabled: true,
+        }
+      );
+      const toController = folder.addBinding(
+        this.settings.filter[property],
+        "to",
+        {
+          label: `to`,
+          disabled: true,
+        }
+      );
+
+      const filter = animator[property + "Filter"];
+      onController.on("change", (event) => {
+        fromController.disabled = !event.value;
+        toController.disabled = !event.value;
+        filter.setOn(event.value);
+      });
+      fromController.on("change", ({ value }) => {
+        filter.setFrom(value);
+      });
+      toController.on("change", ({ value }) => {
+        filter.setTo(value);
+      });
+    };
+
+    createLocationFilter("start", "Start");
+    createLocationFilter("through", "Through");
+    createLocationFilter("end", "End");
+    createDateFilter("date", "Date");
   }
 
   setupRender(animator) {

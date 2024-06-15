@@ -5,6 +5,7 @@ import Track from "./Track.js";
 import normalizeTime from "../parser/transformers/normalizeTime.js";
 import removePauses from "../parser/transformers/removePauses.js";
 import removeWaiting from "../parser/transformers/removeWaiting.js";
+import DateRangeFilter from "./DateRangeFilter.js";
 // import trimStartEnd from "../parser/transformers/trimStartEnd.js";
 
 export default class Animator {
@@ -26,6 +27,7 @@ export default class Animator {
     this.startFilter = new RadiusFilter(this.map, this, "start", "#66ebce");
     this.throughFilter = new RadiusFilter(this.map, this, "through", "#b466eb");
     this.endFilter = new RadiusFilter(this.map, this, "end", "#ee64c7");
+    this.dateFilter = new DateRangeFilter(this, "date");
 
     this.map.on("mousedown", () => {
       SETTINGS.camera.mode = 2;
@@ -56,7 +58,8 @@ export default class Animator {
       track.disabled =
         !this.startFilter.match(track.first()) ||
         !this.endFilter.match(track.last()) ||
-        !track.points.some((point) => this.throughFilter.match(point));
+        !track.points.some((point) => this.throughFilter.match(point)) ||
+        !this.dateFilter.match(track);
     });
 
     this.enabledTracks = this.tracks.filter((track) => !track.disabled);
