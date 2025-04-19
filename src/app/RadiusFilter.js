@@ -71,13 +71,17 @@ export default class RadiusFilter {
 
   add() {
     if (this.settings.latlng.x === 0 && this.settings.latlng.y === 0) {
-      this.setPosition({
-        lat: this.map.getCenter().lat,
-        lng: this.map.getCenter().lng,
-      });
-      this.animator.gui.settingsPane.refresh();
+      this.reset();
     }
     this.marker.addTo(this.map);
+  }
+
+  reset() {
+    this.setPosition({
+      lat: this.map.getCenter().lat,
+      lng: this.map.getCenter().lng,
+    });
+    this.animator.gui.settingsPane.refresh();
   }
 
   remove() {

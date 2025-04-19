@@ -98,18 +98,24 @@ export default class SettingsPane {
         this.settings.filter[property],
         "latlng",
         {
-          label: `Point`,
+          label: `Coordinates`,
           y: { min: -90, max: 90 },
           x: { min: -180, max: 180 },
           disabled: true,
           hidden: false,
         }
       );
+      const resetButton = folder.addButton({
+        title: "Move to view",
+        label: "",
+        disabled: true,
+      });
 
       const filter = animator[property + "Filter"];
       onController.on("change", (event) => {
         radiusController.disabled = !event.value;
         latlngController.disabled = !event.value;
+        resetButton.disabled = !event.value;
         filter.setOn(event.value);
       });
       radiusController.on("change", (event) => {
@@ -125,6 +131,9 @@ export default class SettingsPane {
             lng: value.y,
           });
         }
+      });
+      resetButton.on("click", () => {
+        filter.reset();
       });
     };
 
