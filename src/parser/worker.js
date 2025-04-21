@@ -6,7 +6,7 @@ const parser = new XMLParser({ ignoreAttributes: false });
 addEventListener("message", (event) => {
   event.data.forEach((file, index) => {
     const parsed = parser.parse(file.text);
-    postMessage({ index: index + 1, file: parsed });
+    postMessage({ index: index, name: file.name, file: parsed });
   });
   postMessage(true);
 });

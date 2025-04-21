@@ -8,8 +8,9 @@ export async function parse(files, onProgress, onFail) {
           resolve(files);
         } else {
           try {
-            parsedFiles.push(toObject(data.file, files[data.index]));
-          } catch {
+            parsedFiles.push(toObject(data));
+          } catch (error) {
+            console.log(error);
             onFail(data.index);
           }
           onProgress(data.index);
@@ -27,7 +28,7 @@ export async function parse(files, onProgress, onFail) {
   }
 }
 
-function toObject(file, name) {
+function toObject({ file, name, index }) {
   const trk = file.gpx.trk;
   const points =
     trk.trkseg.trkpt.map((pt) => ({
@@ -42,7 +43,8 @@ function toObject(file, name) {
   }, 0);
 
   const gpxObject = {
-    fileName: name,
+    index,
+    id: name,
     trackName: trk.name,
     points,
     distance,

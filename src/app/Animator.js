@@ -68,22 +68,19 @@ export default class Animator {
   }
 
   add(files) {
-    for (const gpx of files) {
-      if (!this.files.find((file) => file.fileName === gpx.fileName)) {
-        this.files.push(gpx);
-      }
-    }
+    const newFiles = files.filter((file) => !this.files.includes(file));
+    this.files = [...this.files, ...newFiles];
     this.applyTransformers();
   }
 
-  remove(track) {
-    const index = this.files.findIndex(
-      (file) => file.fileName === track.gpx.fileName
-    );
-    if (index >= 0) {
+  remove(removeFile) {
+    const removeFileIndex = this.files.findIndex((file) => file === removeFile);
+
+    const track = this.tracks[removeFileIndex];
+    if (track) {
       track.destroy();
-      this.files.splice(index, 1);
-      this.tracks.splice(index, 1);
+      this.files.splice(removeFileIndex, 1);
+      this.tracks.splice(removeFileIndex, 1);
       this.applyFilter();
     }
   }

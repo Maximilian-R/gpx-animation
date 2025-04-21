@@ -30,24 +30,12 @@ export class LeaderboardView {
       const div3 = document.createElement("div");
       const div4 = document.createElement("div");
 
-      const button = document.createElement("button");
-      button.textContent = "x";
-      button.addEventListener(
-        "click",
-        () => {
-          track.remove();
-          li.remove();
-        },
-        { once: true }
-      );
-
       this.setContent(track, li, div1, div2, div3, div4);
 
       li.appendChild(div1);
       li.appendChild(div2);
       li.appendChild(div3);
       li.appendChild(div4);
-      li.appendChild(button);
       return li;
     });
     this.listElement.replaceChildren(...listItems);
@@ -76,7 +64,7 @@ export class LeaderboardView {
     li.toggleAttribute("disabled", track.disabled);
     div1.setAttribute("title", new Date(track.gpx.meta.time).toDateString());
     div1.textContent = track.index;
-    div2.textContent = track.gpx.trackName ?? track.gpx.fileName;
+    div2.textContent = track.gpx.trackName ?? track.gpx.id;
     div2.setAttribute("title", div2.textContent);
 
     if (track.completed && !track.disabled) {

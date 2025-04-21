@@ -6,11 +6,18 @@ body {
 #settings-gui {
   z-index: 1000;
   position: fixed;
+  bottom: 4rem;
+  right: 1rem;
+}
+
+#activites-gui {
+  z-index: 1000;
+  position: fixed;
   top: 1rem;
   right: 1rem;
 }
 
-#settings-gui > div {
+#activites-gui > div {
   max-height: calc(100vh - 6rem);
   overflow-y: scroll;
 }
