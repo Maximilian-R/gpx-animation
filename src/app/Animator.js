@@ -63,7 +63,7 @@ export default class Animator {
     });
 
     this.enabledTracks = this.tracks.filter((track) => !track.disabled);
-    this.update(true);
+    this.update();
     this.gui.timelinePane.initialise(this);
   }
 
@@ -109,13 +109,13 @@ export default class Animator {
     this.update();
   }
 
-  update(force = false) {
+  update() {
     if (this.isPlaying && this.updateCalled) {
       console.warn("Update was called twice in a single frame");
     } else {
       this.updateCalled = true;
     }
-    this.updateTracks(force);
+    this.updateTracks();
     this.updateCamera();
   }
 
@@ -154,8 +154,8 @@ export default class Animator {
     this.dispatch();
   }
 
-  updateTracks(force = false) {
-    this.enabledTracks.forEach((track) => track.update(this.time, force));
+  updateTracks() {
+    this.enabledTracks.forEach((track) => track.update(this.time));
 
     SETTINGS.leaderboard = [...this.tracks];
     this.gui.leaderboardPane.refresh();

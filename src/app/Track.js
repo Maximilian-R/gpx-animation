@@ -11,7 +11,7 @@ export default class Track {
     this.lastTick = 0;
     this._disabled = false;
 
-    this.polyLine = L.polyline(false, {
+    this.polyLine = L.polyline(this.points, {
       color: "#40ffff",
       opacity: 0.5,
       weight: 3,
@@ -39,8 +39,8 @@ export default class Track {
   }
 
   get duration() {
-    const start = new Date(this.gpx.points.at(0).time);
-    const end = new Date(this.gpx.points.at(-1).time);
+    const start = new Date(this.first().time);
+    const end = new Date(this.last().time);
     return Math.abs(end - start);
   }
 
@@ -63,7 +63,9 @@ export default class Track {
 
   setVisible(visible) {
     if (visible) {
-      this.polyLine.addTo(this.map);
+      SETTINGS.render.paths
+        ? this.polyLine.addTo(this.map)
+        : this.polyLine.remove();
       this.marker.addTo(this.map);
     } else {
       this.polyLine.remove();
@@ -71,7 +73,7 @@ export default class Track {
     }
   }
 
-  update(time, force = false) {
+  update(time) {
     if (this.completed) {
       if (time < this.duration) {
         this.onComplete(false);
@@ -85,7 +87,6 @@ export default class Track {
       this.tick--;
     }
 
-    this.updatePolyLine(force);
     this.updateMarker(time);
 
     if (time >= this.duration) {
@@ -93,14 +94,6 @@ export default class Track {
     }
 
     this.lastTick = this.tick;
-  }
-
-  updatePolyLine(force = false) {
-    if (this.lastTick !== this.tick || force) {
-      this.polyLine.setLatLngs(
-        SETTINGS.render.paths ? this.points.slice(0) : false
-      );
-    }
   }
 
   updateMarker(time) {
@@ -128,6 +121,8 @@ export default class Track {
   }
 
   speed() {
+    return this.current().speed;
+
     if (this.previous() != this.current()) {
       const distance = this.map.distance(this.previous(), this.current());
       const duration = this.current().time - this.previous().time;
@@ -148,12 +143,12 @@ export default class Track {
     return this.points[this.tick] ?? this.first();
   }
 
-  next() {
-    return this.points[this.tick + 1] ?? this.current();
+  next(offset = 1) {
+    return this.points[this.tick + offset] ?? this.current();
   }
 
-  previous() {
-    return this.points[this.tick - 1] ?? this.current();
+  previous(offset = 1) {
+    return this.points[this.tick - offset] ?? this.current();
   }
 
   distanceToFinishLine() {

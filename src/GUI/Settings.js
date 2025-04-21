@@ -25,7 +25,7 @@ export default class SettingsPane {
     folder
       .addBinding(this.settings.render, "paths", { label: "Paths" })
       .on("change", () => {
-        animator.update(true);
+        animator.applyFilter();
       });
 
     folder
