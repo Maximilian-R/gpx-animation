@@ -36,6 +36,7 @@ const SETTINGS = {
   },
   transform: {
     normalize: true,
+    averageSpeed: true,
     removePauses: false,
     removeWaiting: false,
     trimStart: 0,

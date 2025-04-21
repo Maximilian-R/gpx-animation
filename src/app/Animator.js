@@ -6,6 +6,7 @@ import normalizeTime from "../parser/transformers/normalizeTime.js";
 import removePauses from "../parser/transformers/removePauses.js";
 import removeWaiting from "../parser/transformers/removeWaiting.js";
 import DateRangeFilter from "./DateRangeFilter.js";
+import averageSpeed from "../parser/transformers/averageSpeed.js";
 // import trimStartEnd from "../parser/transformers/trimStartEnd.js";
 
 export default class Animator {
@@ -42,6 +43,7 @@ export default class Animator {
     this.tracks.forEach((track) => track.destroy());
 
     let files = this.files;
+    if (SETTINGS.transform.averageSpeed) files = averageSpeed(files);
     if (SETTINGS.transform.normalize) files = normalizeTime(files);
     if (SETTINGS.transform.removePauses) files = removePauses(files);
     if (SETTINGS.transform.removeWaiting)
