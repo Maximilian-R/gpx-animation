@@ -49,7 +49,7 @@ export class FileUploadView {
       (index) => {
         this.setStatus(
           `Reading file ${index + 1} of ${totalFiles}`,
-          (index + 1 / totalFiles) * 100
+          (index / totalFiles) * 100
         );
       },
       (index) => {
@@ -62,7 +62,7 @@ export class FileUploadView {
 
     let message = `Parsed ${parsedFiles.length} files`;
     if (errors > 0) {
-      this.messageElement.textContent += ` - Failed to parse ${errors} files`;
+      message += ` - Failed to parse ${errors} files`;
     }
     this.setStatus(message, 100);
   }

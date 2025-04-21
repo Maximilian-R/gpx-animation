@@ -18,7 +18,7 @@ body {
 }
 
 #activites-gui > div {
-  max-height: calc(100vh - 6rem);
+  max-height: calc(100vh - 12rem);
   overflow-y: scroll;
 }
 
@@ -31,7 +31,7 @@ body {
 
 #leaderboard-gui > div {
   overflow-y: scroll;
-  max-height: 100%;
+  max-height: calc(100vh - 10rem);
 }
 
 #timeline-gui {
