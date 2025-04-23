@@ -2,12 +2,8 @@ import RadiusFilter from "./RadiusFilter.js";
 import SETTINGS from "./Settings.js";
 import Track from "./Track.js";
 
-import normalizeTime from "../parser/transformers/normalizeTime.js";
-import removePauses from "../parser/transformers/removePauses.js";
-import removeWaiting from "../parser/transformers/removeWaiting.js";
+import geolib from "https://cdn.jsdelivr.net/npm/geolib@3.3.4/+esm";
 import DateRangeFilter from "./DateRangeFilter.js";
-import averageSpeed from "../parser/transformers/averageSpeed.js";
-// import trimStartEnd from "../parser/transformers/trimStartEnd.js";
 
 export default class Animator {
   constructor(gui, map) {
@@ -42,17 +38,25 @@ export default class Animator {
     // remove current tracks
     this.tracks.forEach((track) => track.destroy());
 
-    let files = this.files;
-    if (SETTINGS.transform.averageSpeed) files = averageSpeed(files);
-    if (SETTINGS.transform.normalize) files = normalizeTime(files);
-    if (SETTINGS.transform.removePauses) files = removePauses(files);
-    if (SETTINGS.transform.removeWaiting)
-      files = removeWaiting(this.map, files);
-    // files = trimStartEnd(this.map, files);
+    const worker = new Worker("./parser/transformers/worker.js", {
+      type: "module",
+    });
+    worker.postMessage({ files: this.files, settings: SETTINGS.transform });
 
-    //create new tracks
-    this.tracks = files.map((file, index) => new Track(this, file, index));
-    this.applyFilter();
+    worker.addEventListener("message", (event) => {
+      const { files } = event.data;
+
+      //create new tracks
+      this.tracks = files.map((file, index) => new Track(this, file, index));
+      this.applyFilter();
+    });
+
+    // let files = this.files;
+    // if (SETTINGS.transform.averageSpeed) files = averageSpeed(files);
+    // if (SETTINGS.transform.normalize) files = normalizeTime(files);
+    // if (SETTINGS.transform.removePauses) files = removePauses(files);
+    // if (SETTINGS.transform.removeWaiting) files = removeWaiting(files);
+    // // files = trimStartEnd(this.map, files);
   }
 
   applyFilter() {
@@ -159,6 +163,7 @@ export default class Animator {
   updateTracks() {
     this.enabledTracks.forEach((track) => track.update(this.time));
 
+    // Send a dedicated list instead, not the whole class instances.
     SETTINGS.leaderboard = [...this.tracks];
     this.gui.leaderboardPane.refresh();
 

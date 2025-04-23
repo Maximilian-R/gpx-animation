@@ -1,3 +1,5 @@
+import geolib from "https://cdn.jsdelivr.net/npm/geolib@3.3.4/+esm";
+
 export default function averageSpeed(list, range = 7) {
   return list.map((gpx) => {
     const points = gpx.points.map((point, index) => {
@@ -30,7 +32,10 @@ function smoothedSpeed(points, index, range = 7) {
     const p1 = points[i];
     const p2 = points[i + 1];
 
-    const distance = L.CRS.EPSG3857.distance(p1, p2); // m
+    const distance = geolib.getDistance(
+      { longitude: p1.lng, latitude: p1.lat },
+      { longitude: p2.lng, latitude: p2.lat }
+    ); // m
     const duration = (new Date(p2.time) - new Date(p1.time)) / 1000; // seconds
 
     if (distance < 1 || duration < 0.25 || distance / duration > 30) {
