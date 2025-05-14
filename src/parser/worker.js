@@ -1,6 +1,5 @@
-importScripts(
-  "https://cdnjs.cloudflare.com/ajax/libs/fast-xml-parser/4.2.7/fxparser.min.js"
-);
+import { XMLParser } from "https://cdn.jsdelivr.net/npm/fast-xml-parser@5.2.3/+esm";
+
 const parser = new XMLParser({ ignoreAttributes: false });
 
 addEventListener("message", (event) => {

@@ -2,7 +2,9 @@ import geolib from "https://cdn.jsdelivr.net/npm/geolib@3.3.4/+esm";
 
 export async function parse(files, onProgress, onFail) {
   if (window.Worker) {
-    const worker = new Worker("./parser/worker.js");
+    const worker = new Worker("./parser/worker.js", {
+      type: "module",
+    });
     const parsedFiles = [];
     const promise = new Promise((resolve, reject) => {
       worker.onmessage = ({ data }) => {
