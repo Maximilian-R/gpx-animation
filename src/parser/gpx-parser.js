@@ -1,3 +1,5 @@
+import geolib from "https://cdn.jsdelivr.net/npm/geolib@3.3.4/+esm";
+
 export async function parse(files, onProgress, onFail) {
   if (window.Worker) {
     const worker = new Worker("./parser/worker.js");
@@ -37,9 +39,17 @@ function toObject({ file, name, index }) {
       time: pt.time,
     })) ?? [];
 
-  const distance = points.reduce((acc, curr, index) => {
+  const distance = points.reduce((acc, current, index) => {
     if (index === 0) return 0;
-    return acc + L.CRS.EPSG3857.distance(points[index - 1], curr);
+    const previous = points[index - 1];
+
+    return (
+      acc +
+      geolib.getDistance(
+        { longitude: previous.lng, latitude: previous.lat },
+        { longitude: current.lng, latitude: current.lat }
+      )
+    );
   }, 0);
 
   const gpxObject = {
