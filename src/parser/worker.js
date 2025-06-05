@@ -21,7 +21,6 @@ addEventListener("message", async (event) => {
         if (error) {
           console.log(error);
         } else {
-          console.log(JSON.stringify(data));
           postMessage(fitToObject(file.name, index, data));
         }
       });
@@ -69,13 +68,42 @@ function gpxToObject(id, index, xml) {
 }
 
 function fitToObject(id, index, data) {
+  // https://developer.garmin.com/fit/file-types/activity/
+
+  // which should I use to align well with custom transformers?
+  // total_timer_time: "active timer, pauses not included"
+  // total_elapsed_timef: "total time, pauses included"
+
+  const activity = data.activity;
+  const startTime = activity.local_timestamp;
+  const records = activity.sessions.flatMap((session) =>
+    session.laps.flatMap((lap) => lap.records)
+  );
+  const points = records
+    .map((record) => {
+      const date = new Date(startTime);
+      date.setSeconds(date.getSeconds() + record.elapsed_time);
+
+      return {
+        lat: record.position_lat,
+        lng: record.position_long,
+        time: date.toISOString(),
+      };
+    })
+    // safe to filter out points without lat lng ?
+    .filter((point) => point.lat && point.lng);
+
+  const distance = activity.sessions
+    .map((session) => session.total_distance)
+    .reduce((sum, value) => sum + value, 0);
+
   const track = {
     id,
     index,
-    // trackName: trk.name,
-    // points,
-    // distance,
-    // time: xml.gpx.metadata.time,
+    trackName: undefined,
+    points,
+    distance: distance,
+    time: startTime,
   };
   return track;
 }
