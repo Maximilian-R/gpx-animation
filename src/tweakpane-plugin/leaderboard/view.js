@@ -62,9 +62,9 @@ export class LeaderboardView {
 
   setContent(track, li, div1, div2, div3, div4) {
     li.toggleAttribute("disabled", track.disabled);
-    div1.setAttribute("title", new Date(track.gpx.meta.time).toDateString());
+    div1.setAttribute("title", new Date(track.trackData.time).toDateString());
     div1.textContent = track.index;
-    div2.textContent = track.gpx.trackName ?? track.gpx.id;
+    div2.textContent = track.trackData.trackName ?? track.trackData.id;
     div2.setAttribute("title", div2.textContent);
 
     if (track.completed && !track.disabled) {

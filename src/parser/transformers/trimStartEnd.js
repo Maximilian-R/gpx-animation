@@ -2,12 +2,12 @@ import SETTINGS from "../../gui/Settings.js";
 import { distance, duration, toSeconds } from "./utils.js";
 
 export default function trimStartEnd(map, list) {
-  return list.map((gpx) => {
+  return list.map((trackData) => {
     return {
-      ...gpx,
+      ...trackData,
       points: removePoints(
         map,
-        gpx.points,
+        trackData.points,
         SETTINGS.transform.trimStart,
         SETTINGS.transform.trimEnd
       ),

@@ -1,10 +1,10 @@
 import SETTINGS from "./Settings.js";
 
 export default class Track {
-  constructor(animator, gpx, index) {
+  constructor(animator, trackData, index) {
     this.animator = animator;
     this.map = this.animator.map;
-    this.gpx = gpx;
+    this.trackData = trackData;
     this.index = index;
     this.completed = false;
     this.tick = 0;
@@ -27,15 +27,15 @@ export default class Track {
   }
 
   get date() {
-    return this.gpx.meta.time.slice(0, 10);
+    return this.trackData.time.slice(0, 10);
   }
 
   get points() {
-    return this.gpx.points;
+    return this.trackData.points;
   }
 
   get distance() {
-    return this.gpx.distance;
+    return this.trackData.distance;
   }
 
   get duration() {

@@ -6,10 +6,10 @@ import geolib from "https://cdn.jsdelivr.net/npm/geolib@3.3.4/+esm";
 import { distance, duration, toSeconds } from "./utils.js";
 
 export default function removeWaiting(list) {
-  return list.map((gpx) => {
+  return list.map((trackData) => {
     return {
-      ...gpx,
-      points: removePoints(gpx.points),
+      ...trackData,
+      points: removePoints(trackData.points),
     };
   });
 }

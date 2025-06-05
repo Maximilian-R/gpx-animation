@@ -1,12 +1,12 @@
 import { duration, toSeconds } from "./utils.js";
 
-// remove pauses in the gpx file - eg the tracking was paused and has a long gap in time between two points
+// remove pauses in the gps-data - eg the tracking was paused and has a long gap in time between two points
 // False positives: could long gaps be caused by other things as well - no gps signal in tunnels?
 export default function removePauses(list) {
-  return list.map((gpx) => {
+  return list.map((trackData) => {
     return {
-      ...gpx,
-      points: offsetTime(gpx.points),
+      ...trackData,
+      points: offsetTime(trackData.points),
     };
   });
 }

@@ -1,9 +1,9 @@
 import geolib from "https://cdn.jsdelivr.net/npm/geolib@3.3.4/+esm";
 
 export default function averageSpeed(list, range = 7) {
-  return list.map((gpx) => {
-    const points = gpx.points.map((point, index) => {
-      const averageSpeed = smoothedSpeed(gpx.points, index, range);
+  return list.map((trackData) => {
+    const points = trackData.points.map((point, index) => {
+      const averageSpeed = smoothedSpeed(trackData.points, index, range);
 
       return {
         ...point,
@@ -11,7 +11,7 @@ export default function averageSpeed(list, range = 7) {
       };
     });
     return {
-      ...gpx,
+      ...trackData,
       points: points,
     };
   });

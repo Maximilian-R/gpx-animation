@@ -1,4 +1,4 @@
-import { parse } from "../../parser/gpx-parser.js";
+import { parse } from "../../parser/file-parser.js";
 import { readFiles } from "./file-reader.js";
 
 export class FileUploadView {
@@ -43,13 +43,15 @@ export class FileUploadView {
     this.setStatus(`Reading file 0 of ${totalFiles}`, 0);
 
     let errors = 0;
+    let parsed = 0;
     const files = await readFiles([...e.dataTransfer.items]);
     const parsedFiles = await parse(
       files,
-      (index) => {
+      () => {
+        parsed++;
         this.setStatus(
-          `Reading file ${index + 1} of ${totalFiles}`,
-          (index / totalFiles) * 100
+          `Reading file ${parsed + 1} of ${totalFiles}`,
+          (parsed / totalFiles) * 100
         );
       },
       (index) => {
@@ -70,7 +72,7 @@ export class FileUploadView {
   createDropZone(host) {
     const dropzoneElement = document.createElement("div");
     dropzoneElement.classList.add("tp-file-drop-zone");
-    dropzoneElement.textContent = "Drop .gpx files here";
+    dropzoneElement.textContent = "Drop [.gpx or .fit] files here";
     host.appendChild(dropzoneElement);
 
     dropzoneElement.addEventListener("dragover", (e) => {
@@ -141,7 +143,7 @@ export class FileUploadView {
       div2.textContent = file.trackName ?? file.id;
       div2.setAttribute("title", div2.textContent);
 
-      div3.textContent = formatDate(new Date(file.meta.time));
+      div3.textContent = formatDate(new Date(file.time));
       div3.setAttribute("title", div3.textContent);
 
       li.appendChild(div1);

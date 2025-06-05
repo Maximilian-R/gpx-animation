@@ -4,7 +4,7 @@ const supportsWebkitGetAsEntry =
   "webkitGetAsEntry" in DataTransferItem.prototype;
 
 export async function readFiles(dataTransferItems) {
-  const fileHandlesPromises = dataTransferItems
+  const fileHandles = dataTransferItems
     .filter((item) => item.kind === "file")
     .map((item) =>
       supportsFileSystemAccessAPI
@@ -14,13 +14,12 @@ export async function readFiles(dataTransferItems) {
         : item.getAsFile()
     );
   const files = [];
-  for await (const handle of fileHandlesPromises) {
+  for await (const handle of fileHandles) {
     if (handle.kind === "directory" || handle.isDirectory) {
       console.log(`Directory: ${handle}`);
     } else {
       const file = await handle.getFile();
-      const text = await file.text();
-      files.push({ name: handle.name, text });
+      files.push(file);
     }
   }
 

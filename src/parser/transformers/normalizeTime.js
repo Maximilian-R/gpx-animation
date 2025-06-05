@@ -1,7 +1,7 @@
 export default function normalizeTime(list, base = new Date("2000-01-01")) {
-  return list.map((gpx) => {
-    const start = new Date(gpx.points[0].time);
-    const points = gpx.points.map((point) => {
+  return list.map((trackData) => {
+    const start = new Date(trackData.points[0].time);
+    const points = trackData.points.map((point) => {
       const time = new Date(point.time);
       const elapsedTime = time - start;
       return {
@@ -10,7 +10,7 @@ export default function normalizeTime(list, base = new Date("2000-01-01")) {
       };
     });
     return {
-      ...gpx,
+      ...trackData,
       points: points,
     };
   });
