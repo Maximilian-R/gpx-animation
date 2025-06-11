@@ -6,15 +6,14 @@ export async function parse(files, onProgress, onFail) {
     const parsedFiles = [];
     const promise = new Promise((resolve, reject) => {
       worker.onmessage = ({ data }) => {
-        if (typeof data === "boolean") {
-          resolve(files);
-        } else {
-          try {
-            parsedFiles.push(data);
-          } catch (error) {
-            console.log(error);
-            onFail(data.index);
-          }
+        if (data.event === "complete") {
+          resolve();
+        } else if (data.event === "error") {
+          console.error(data.error);
+          onFail(data.index);
+          onProgress();
+        } else if (data.event === "parsed") {
+          parsedFiles.push(data.object);
           onProgress();
         }
       };

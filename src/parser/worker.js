@@ -15,23 +15,33 @@ const fitParser = new fitFileParser.default.default({
 
 addEventListener("message", async (event) => {
   for (const [index, file] of event.data.entries()) {
-    if (file.name.includes(".fit")) {
-      const fileContent = await file.arrayBuffer();
-      fitParser.parse(fileContent, (error, data) => {
-        if (error) {
-          console.log(error);
-        } else {
-          postMessage(fitToObject(file.name, index, data));
-        }
-      });
-    } else if (file.name.includes(".gpx")) {
-      const fileContent = await file.text();
-      const xmlContent = fastXmlParser.parse(fileContent);
-      postMessage(gpxToObject(file.name, index, xmlContent));
+    try {
+      if (file.name.includes(".fit")) {
+        const fileContent = await file.arrayBuffer();
+        fitParser.parse(fileContent, (error, data) => {
+          if (error) {
+            console.log(error);
+          } else {
+            postMessage({
+              event: "parsed",
+              object: fitToObject(file.name, index, data),
+            });
+          }
+        });
+      } else if (file.name.includes(".gpx")) {
+        const fileContent = await file.text();
+        const xmlContent = fastXmlParser.parse(fileContent);
+        postMessage({
+          event: "parsed",
+          object: gpxToObject(file.name, index, xmlContent),
+        });
+      }
+    } catch (error) {
+      postMessage({ event: "error", error: error, index });
     }
   }
 
-  postMessage(true);
+  postMessage({ event: "complete" });
 });
 
 function gpxToObject(id, index, xml) {
@@ -79,20 +89,27 @@ function fitToObject(id, index, data) {
   const records = activity.sessions.flatMap((session) =>
     session.laps.flatMap((lap) => lap.records)
   );
+
   const points = records
     .map((record) => {
-      const date = new Date(startTime);
-      date.setSeconds(date.getSeconds() + record.elapsed_time);
+      let date = new Date(startTime);
+      if (record.elapsed_time) {
+        date.setSeconds(date.getSeconds() + record.elapsed_time);
+      } else {
+        date = undefined;
+      }
 
       return {
         lat: record.position_lat,
         lng: record.position_long,
-        time: date.toISOString(),
+        time: date?.toISOString(),
       };
     })
-    // safe to filter out points without lat lng ?
-    .filter((point) => point.lat && point.lng);
+    .filter((point) => point.lat && point.lng && point.time); // safe to filter out points without lat lng time?
 
+  if (points.length === 0) {
+    throw new Error("");
+  }
   const distance = activity.sessions
     .map((session) => session.total_distance)
     .reduce((sum, value) => sum + value, 0);
