@@ -6,7 +6,7 @@ export default class SettingsPane {
     this.map = map;
 
     this.pane = new Pane({
-      container: document.getElementById("settings-gui"),
+      container: document.getElementById("settings-pane"),
       title: "Settings",
     });
   }

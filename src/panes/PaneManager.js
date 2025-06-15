@@ -4,7 +4,7 @@ import LeaderboardPane from "./Leaderboard.js";
 import SettingsPane from "./Settings.js";
 import ActivitesPane from "./Activities.js";
 
-export default class GUI {
+export default class PaneManager {
   constructor(map) {
     this.map = map;
     this.settings = SETTINGS;

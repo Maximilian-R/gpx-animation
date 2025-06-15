@@ -1,4 +1,4 @@
-import SETTINGS from "../../gui/Settings.js";
+import SETTINGS from "../../paneManager/Settings.js";
 import { distance, duration, toSeconds } from "./utils.js";
 
 export default function trimStartEnd(map, list) {

@@ -6,8 +6,8 @@ import geolib from "https://cdn.jsdelivr.net/npm/geolib@3.3.4/+esm";
 import DateRangeFilter from "./DateRangeFilter.js";
 
 export default class Animator {
-  constructor(gui, map) {
-    this.gui = gui;
+  constructor(paneManager, map) {
+    this.paneManager = paneManager;
     this.map = map;
     this.files = [];
     this.tracks = [];
@@ -28,10 +28,10 @@ export default class Animator {
 
     this.map.on("mousedown", () => {
       SETTINGS.camera.mode = 2;
-      this.gui.leaderboardPane.refresh();
+      this.paneManager.leaderboardPane.refresh();
     });
 
-    this.gui.initialise(this);
+    this.paneManager.initialise(this);
   }
 
   applyTransformers() {
@@ -70,7 +70,7 @@ export default class Animator {
 
     this.enabledTracks = this.tracks.filter((track) => !track.disabled);
     this.update();
-    this.gui.timelinePane.initialise(this);
+    this.paneManager.timelinePane.initialise(this);
   }
 
   add(files) {
@@ -134,7 +134,7 @@ export default class Animator {
 
     this.ignoreSetTime = true;
     SETTINGS.timeline = this.time;
-    this.gui.timelinePane.refresh();
+    this.paneManager.timelinePane.refresh();
     this.ignoreSetTime = false;
 
     this.lastTime = currentTime;
@@ -165,7 +165,7 @@ export default class Animator {
 
     // Send a dedicated list instead, not the whole class instances.
     SETTINGS.leaderboard = [...this.tracks];
-    this.gui.leaderboardPane.refresh();
+    this.paneManager.leaderboardPane.refresh();
 
     if (this.enabledTracks.every((track) => track.completed)) this.stop();
   }

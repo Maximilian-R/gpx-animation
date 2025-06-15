@@ -6,7 +6,7 @@ export default class LeaderboardPane {
     this.settings = settings;
 
     this.pane = new Pane({
-      container: document.getElementById("leaderboard-gui"),
+      container: document.getElementById("leaderboard-pane"),
       title: "Main",
     });
   }

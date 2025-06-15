@@ -27,7 +27,7 @@ export default class RadiusFilter {
       this.map.dragging.enable();
       this.map.off("mousemove", onMove);
       this.animator.applyFilter();
-      this.animator.gui.settingsPane.refresh();
+      this.animator.paneManager.settingsPane.refresh();
     });
   }
 
@@ -81,7 +81,7 @@ export default class RadiusFilter {
       lat: this.map.getCenter().lat,
       lng: this.map.getCenter().lng,
     });
-    this.animator.gui.settingsPane.refresh();
+    this.animator.paneManager.settingsPane.refresh();
   }
 
   remove() {

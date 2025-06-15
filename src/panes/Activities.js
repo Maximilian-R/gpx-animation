@@ -6,7 +6,7 @@ export default class ActivitesPane {
     this.settings = settings;
 
     this.pane = new Pane({
-      container: document.getElementById("activites-gui"),
+      container: document.getElementById("activites-pane"),
       title: "Activites",
     });
   }

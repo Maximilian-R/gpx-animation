@@ -5,7 +5,7 @@ export default class TimelinePane {
     this.settings = settings;
 
     this.pane = new Pane({
-      container: document.getElementById("timeline-gui"),
+      container: document.getElementById("timeline-pane"),
     });
 
     this.controller;

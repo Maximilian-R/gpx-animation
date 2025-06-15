@@ -3,38 +3,38 @@ body {
   margin: 0;
 }
 
-#settings-gui {
+#settings-pane {
   z-index: 1000;
   position: fixed;
   bottom: 4rem;
   right: 1rem;
 }
 
-#activites-gui {
+#activites-pane {
   z-index: 1000;
   position: fixed;
   top: 1rem;
   right: 1rem;
 }
 
-#activites-gui > div {
+#activites-pane > div {
   max-height: calc(100vh - 12rem);
   overflow-y: scroll;
 }
 
-#leaderboard-gui {
+#leaderboard-pane {
   z-index: 1000;
   position: fixed;
   top: 6rem;
   left: 1rem;
 }
 
-#leaderboard-gui > div {
+#leaderboard-pane > div {
   overflow-y: scroll;
   max-height: calc(100vh - 10rem);
 }
 
-#timeline-gui {
+#timeline-pane {
   z-index: 1000;
   position: fixed;
   bottom: 1rem;
@@ -42,7 +42,7 @@ body {
   left: 1rem;
 }
 
-#timeline-gui .tp-sldtxtv_t {
+#timeline-pane .tp-sldtxtv_t {
   display: none;
 }
 
@@ -168,7 +168,7 @@ progress::-webkit-progress-value {
   border-radius: 0.5rem;
 }
 
-.gui-layer {
+.pane-layer {
   /* inset: 0;
         z-index: 1000;
         display: grid; */
