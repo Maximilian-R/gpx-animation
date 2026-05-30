@@ -38,6 +38,10 @@ export class FileUploadView {
   }
 
   async processSelectedFiles(e) {
+    this.config.value.rawValue = {
+      isLoading: true,
+    };
+
     const totalFiles = e.dataTransfer.items.length;
 
     this.setStatus(`Reading file 0 of ${totalFiles}`, 0);
@@ -59,6 +63,10 @@ export class FileUploadView {
         errors++;
       }
     );
+
+    this.config.value.rawValue = {
+      isLoading: false,
+    };
 
     this.addFiles(parsedFiles);
 

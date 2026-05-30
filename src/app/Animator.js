@@ -38,6 +38,11 @@ export default class Animator {
     // remove current tracks
     this.tracks.forEach((track) => track.destroy());
 
+    // without timeout, it seems to conflict with the enable call triggered by completion of reading files.
+    setTimeout(() => {
+      this.paneManager.disable();
+    }, 0);
+
     const worker = new Worker("./parser/transformers/worker.js", {
       type: "module",
     });
@@ -49,14 +54,9 @@ export default class Animator {
       //create new tracks
       this.tracks = files.map((file, index) => new Track(this, file, index));
       this.applyFilter();
-    });
 
-    // let files = this.files;
-    // if (SETTINGS.transform.averageSpeed) files = averageSpeed(files);
-    // if (SETTINGS.transform.normalize) files = normalizeTime(files);
-    // if (SETTINGS.transform.removePauses) files = removePauses(files);
-    // if (SETTINGS.transform.removeWaiting) files = removeWaiting(files);
-    // // files = trimStartEnd(this.map, files);
+      this.paneManager.enable();
+    });
   }
 
   applyFilter() {

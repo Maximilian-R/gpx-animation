@@ -13,19 +13,29 @@ export default class PaneManager {
     this.activitesPane = new ActivitesPane(this.settings);
     this.leaderboardPane = new LeaderboardPane(this.settings);
     this.timelinePane = new TimelinePane(this.settings);
+
+    this.panes = [
+      this.settingsPane,
+      this.activitesPane,
+      this.leaderboardPane,
+      this.timelinePane,
+    ];
   }
 
   refresh() {
-    this.settingsPane.refresh();
-    this.activitesPane.refresh();
-    this.leaderboardPane.refresh();
-    this.timelinePane.refresh();
+    this.panes.forEach((pane) => pane.refresh());
   }
 
   initialise(animator) {
-    this.settingsPane.initialise(animator);
-    this.activitesPane.initialise(animator);
-    this.leaderboardPane.initialise(animator);
-    this.timelinePane.initialise(animator);
+    this.panes.forEach((pane) => pane.initialise(animator));
+  }
+
+  disable() {
+    this.panes.forEach((pane) => (pane.pane.disabled = true));
+    this.refresh();
+  }
+
+  enable() {
+    this.panes.forEach((pane) => (pane.pane.disabled = false));
   }
 }

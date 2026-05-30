@@ -195,6 +195,9 @@ export default class ActivitesPane {
     filesController.on("change", (event) => {
       event.value.add && animator.add(event.value.add);
       event.value.remove && animator.remove(event.value.remove);
+      event.value.isLoading && event.value.isLoading
+        ? animator.paneManager.disable()
+        : animator.paneManager.enable();
     });
   }
 }
