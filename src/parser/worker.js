@@ -47,11 +47,15 @@ addEventListener("message", async (event) => {
 function gpxToObject(id, index, xml) {
   const trk = xml.gpx.trk;
   const points =
-    trk.trkseg.trkpt.map((pt) => ({
+    trk?.trkseg?.trkpt.map((pt) => ({
       lat: Number(pt["@_lat"]),
       lng: Number(pt["@_lon"]),
       time: pt.time,
     })) ?? [];
+
+  if (points.length === 0) {
+    throw new Error("Activity file has not gps data");
+  }
 
   const distance = points.reduce((acc, current, index) => {
     if (index === 0) return 0;
@@ -69,7 +73,7 @@ function gpxToObject(id, index, xml) {
   const track = {
     id,
     index,
-    trackName: trk.name,
+    trackName: trk?.name ?? "",
     points,
     distance,
     time: xml.gpx.metadata.time,
@@ -108,7 +112,7 @@ function fitToObject(id, index, data) {
     .filter((point) => point.lat && point.lng && point.time); // safe to filter out points without lat lng time?
 
   if (points.length === 0) {
-    throw new Error("");
+    throw new Error("Activity file has not gps data");
   }
   const distance = activity.sessions
     .map((session) => session.total_distance * 1000)
