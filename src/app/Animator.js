@@ -52,7 +52,7 @@ export default class Animator {
       const { files } = event.data;
 
       //create new tracks
-      this.tracks = files.map((file, index) => new Track(this, file, index));
+      this.tracks = files.map((file) => new Track(this, file));
       this.applyFilter();
 
       this.paneManager.enable();

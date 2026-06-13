@@ -1,11 +1,11 @@
 import SETTINGS from "./Settings.js";
 
 export default class Track {
-  constructor(animator, trackData, index) {
+  constructor(animator, trackData) {
     this.animator = animator;
     this.map = this.animator.map;
     this.trackData = trackData;
-    this.index = index;
+    this.index = trackData.index;
     this.completed = false;
     this.tick = 0;
     this.lastTick = 0;
@@ -19,7 +19,7 @@ export default class Track {
 
     this.marker = L.marker(this.first(), {
       icon: L.divIcon({
-        html: `<i id="marker-${index}" class='marker'>${index}</i>`,
+        html: `<i id="marker-${this.index}" class='marker'>${this.index}</i>`,
         iconSize: L.point(24, 24),
       }),
       interactive: false,

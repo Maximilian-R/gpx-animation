@@ -64,8 +64,8 @@ export class LeaderboardView {
     li.toggleAttribute("disabled", track.disabled);
     div1.setAttribute("title", new Date(track.trackData.time).toDateString());
     div1.textContent = track.index;
-    div2.textContent = track.trackData.trackName ?? track.trackData.id;
-    div2.setAttribute("title", div2.textContent);
+    div2.textContent = track.trackData.id;
+    div2.setAttribute("title", track.trackData.trackName);
 
     if (track.completed && !track.disabled) {
       const date = new Date(track.duration);

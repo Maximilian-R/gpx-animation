@@ -111,7 +111,7 @@ function fitToObject(id, index, data) {
     throw new Error("");
   }
   const distance = activity.sessions
-    .map((session) => session.total_distance)
+    .map((session) => session.total_distance * 1000)
     .reduce((sum, value) => sum + value, 0);
 
   const track = {

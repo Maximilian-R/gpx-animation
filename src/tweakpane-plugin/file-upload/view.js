@@ -148,7 +148,7 @@ export class FileUploadView {
       div1.textContent = file.index;
       div1.setAttribute("title", div1.textContent);
 
-      div2.textContent = file.trackName ?? file.id;
+      div2.textContent = file.id;
       div2.setAttribute("title", div2.textContent);
 
       div3.textContent = formatDate(new Date(file.time));
