@@ -76,13 +76,12 @@ export class LeaderboardView {
         maximumFractionDigits: 2,
         minimumFractionDigits: 2,
       })}km`;
-      div4.textContent = `${date
-        .getUTCHours()
-        .toLocaleString("en-US", options)}:${date
+      div4.textContent = `${date.getUTCHours().toLocaleString("en-US", options)}:${date
         .getMinutes()
-        .toLocaleString("en-US", options)}:${date
-        .getSeconds()
-        .toLocaleString("en-US", options)}`;
+        .toLocaleString(
+          "en-US",
+          options
+        )}:${date.getSeconds().toLocaleString("en-US", options)}`;
     } else {
       div3.textContent = "";
       div4.textContent = `${Math.trunc(track.speed())}km/h`;

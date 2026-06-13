@@ -10,8 +10,8 @@ export async function readFiles(dataTransferItems) {
       supportsFileSystemAccessAPI
         ? item.getAsFileSystemHandle()
         : supportsWebkitGetAsEntry
-        ? item.webkitGetAsEntry()
-        : item.getAsFile()
+          ? item.webkitGetAsEntry()
+          : item.getAsFile()
     );
   const files = [];
   for await (const handle of fileHandles) {
