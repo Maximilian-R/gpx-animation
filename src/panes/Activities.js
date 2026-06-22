@@ -7,7 +7,7 @@ export default class ActivitesPane {
 
     this.pane = new Pane({
       container: document.getElementById("activites-pane"),
-      title: "Activites",
+      title: "Control Panel",
     });
   }
 
@@ -186,7 +186,7 @@ export default class ActivitesPane {
 
   setupUpload(animator) {
     this.pane.registerPlugin(FileUploadPluginBundle);
-    const folder = this.pane.addFolder({ title: "Data" });
+    const folder = this.pane.addFolder({ title: "Activites" });
     const filesController = folder.addBinding(this.settings, "files", {
       view: "file-upload",
       label: undefined,

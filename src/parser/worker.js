@@ -54,7 +54,7 @@ function gpxToObject(id, index, xml) {
     })) ?? [];
 
   if (points.length === 0) {
-    throw new Error("Activity file has not gps data");
+    throw new Error("File has no GPS data");
   }
 
   const distance = points.reduce((acc, current, index) => {
@@ -112,7 +112,7 @@ function fitToObject(id, index, data) {
     .filter((point) => point.lat && point.lng && point.time); // safe to filter out points without lat lng time?
 
   if (points.length === 0) {
-    throw new Error("Activity file has not gps data");
+    throw new Error("File has no GPS data");
   }
   const distance = activity.sessions
     .map((session) => session.total_distance * 1000)

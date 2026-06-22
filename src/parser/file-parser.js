@@ -10,11 +10,11 @@ export async function parse(files, onProgress, onFail) {
           resolve();
         } else if (data.event === "error") {
           console.error(data.error);
-          onFail(data.index);
+          onFail(data.index, data.error.message);
           onProgress();
         } else if (data.event === "parsed") {
           parsedFiles.push(data.object);
-          onProgress();
+          onProgress(data.object);
         }
       };
       worker.postMessage(files);

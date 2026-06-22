@@ -32,8 +32,8 @@ export default class SettingsPane {
       .addBinding(this.settings, "theme", {
         label: "Theme",
         options: {
-          ["Positron"]: 0,
-          ["Dark Matter"]: 1,
+          ["Dark Matter"]: 0,
+          ["Positron"]: 1,
           ["Dark Matter Brown"]: 2,
           ["OSM Bright"]: 3,
         },

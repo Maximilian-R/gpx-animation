@@ -41,6 +41,7 @@ export default class Animator {
     // without timeout, it seems to conflict with the enable call triggered by completion of reading files.
     setTimeout(() => {
       this.paneManager.disable();
+      document.querySelector("#loading-pane").hidden = false;
     }, 0);
 
     const worker = new Worker("./parser/transformers/worker.js", {
@@ -56,6 +57,7 @@ export default class Animator {
       this.applyFilter();
 
       this.paneManager.enable();
+      document.querySelector("#loading-pane").hidden = true;
     });
   }
 

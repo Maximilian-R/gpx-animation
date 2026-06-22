@@ -1,8 +1,8 @@
 export default class Map {
   static API_KEY = "076c702d09534bef9bf95ace9b1dc9a4";
   static TILE_LAYERS = [
-    `https://maps.geoapify.com/v1/tile/positron/{z}/{x}/{y}.png?apiKey=${Map.API_KEY}`,
     `https://maps.geoapify.com/v1/tile/dark-matter/{z}/{x}/{y}.png?apiKey=${Map.API_KEY}`,
+    `https://maps.geoapify.com/v1/tile/positron/{z}/{x}/{y}.png?apiKey=${Map.API_KEY}`,
     `https://maps.geoapify.com/v1/tile/dark-matter-brown/{z}/{x}/{y}.png?apiKey=${Map.API_KEY}`,
     `https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=${Map.API_KEY}`,
   ];

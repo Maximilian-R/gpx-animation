@@ -46,6 +46,46 @@ body {
   display: none;
 }
 
+#loading-pane {
+  z-index: 1000;
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+
+  font-family: monospace;
+  transform: translate(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+}
+
+#loading-pane::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+
+  background-color: white;
+  border-radius: 100%;
+  animation: loading 1s linear infinite;
+}
+
+@keyframes loading {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
 #map {
   height: 100vh;
 }
@@ -53,7 +93,7 @@ body {
 .marker {
   display: grid;
   place-items: center;
-  background-color: rgba(255, 162, 70, 0.75);
+  background-color: rgba(245, 67, 113, 0.75);
   font-weight: 900;
   font-family: monospace;
   color: white;
@@ -69,6 +109,12 @@ body {
 .leaflet-div-icon {
   background: none;
   border: none;
+}
+
+.tp-leaderboard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .tp-leaderboard > ul {
@@ -94,13 +140,18 @@ body {
 }
 
 .tp-leaderboard > ul > li > div:first-of-type {
-  background: rgba(255, 162, 70, 0.75);
-  color: var(--btn-fg);
+  background: rgba(245, 67, 113, 1);
+  color: white;
   width: 20px;
   height: 20px;
   border-radius: 2px;
   line-height: 20px;
   text-align: center;
+}
+
+.tp-leaderboard > ul > li.error > div:first-of-type {
+  background: rgba(255, 0, 0, 0.75);
+  color: white;
 }
 
 .tp-leaderboard > ul > li > div:nth-of-type(2) {
@@ -138,11 +189,16 @@ body {
   height: 60px;
   display: grid;
   place-items: center;
-  border: 2px dotted var(--btn-bg);
+  border: 2px dashed var(--btn-bg);
+  border-radius: 6px;
   color: var(--btn-bg);
+  cursor: pointer;
 }
+
+.tp-file-drop-zone:hover,
 .tp-file-drop-zone.drag-enter {
-  background-color: #adafb84a;
+  background-color: rgba(245, 67, 113, 0.25);
+  border-color: rgba(245, 67, 113, 0.75);
 }
 
 .tp-file-status {
@@ -172,4 +228,8 @@ progress::-webkit-progress-value {
   /* inset: 0;
         z-index: 1000;
         display: grid; */
+}
+
+[hidden] {
+  display: none !important;
 }
