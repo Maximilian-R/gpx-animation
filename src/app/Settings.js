@@ -1,7 +1,7 @@
 const SETTINGS = {
   leaderboard: [],
   theme: 0,
-  speed: 100,
+  speed: 25,
   timeline: 0,
   files: [],
   render: {

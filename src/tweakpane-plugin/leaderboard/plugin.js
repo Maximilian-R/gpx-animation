@@ -1,4 +1,4 @@
-import { Semver } from "https://unpkg.com/tweakpane@4.0.3/dist/tweakpane.js";
+import { Semver } from "https://unpkg.com/tweakpane@4.0.5/dist/tweakpane.js";
 import { LeaderboardController } from "./controller.js";
 
 export const LeaderboardPlugin = {

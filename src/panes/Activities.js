@@ -1,4 +1,4 @@
-import { Pane } from "https://unpkg.com/tweakpane@4.0.3/dist/tweakpane.js";
+import { Pane } from "https://unpkg.com/tweakpane@4.0.5/dist/tweakpane.js";
 import { FileUploadPluginBundle } from "../tweakpane-plugin/file-upload/index.js";
 
 export default class ActivitesPane {

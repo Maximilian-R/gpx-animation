@@ -1,5 +1,6 @@
 export class LeaderboardView {
   constructor(host, config) {
+    this.viewProps = config.viewProps;
     this.element = host.createElement("div");
     this.element.classList.add("tp-leaderboard");
 
@@ -7,6 +8,7 @@ export class LeaderboardView {
     this.element.appendChild(this.listElement);
 
     const value = config.value;
+    this.value = value;
     value.emitter.on("change", () => this.update(value.rawValue));
     this.create(value.rawValue);
   }
@@ -62,8 +64,17 @@ export class LeaderboardView {
 
   setContent(track, li, div1, div2, div3, div4) {
     li.toggleAttribute("disabled", track.disabled);
+    li.addEventListener("click", (event) => {
+      this.viewProps.emitter.emit("click", {
+        originalEvent: event,
+        target: track.index,
+      });
+    });
+    li.style.cursor = track.disabled ? "inherit" : "pointer";
+
     div1.setAttribute("title", new Date(track.trackData.time).toDateString());
     div1.textContent = track.index;
+
     div2.textContent = track.trackData.id;
     div2.setAttribute("title", track.trackData.trackName);
 

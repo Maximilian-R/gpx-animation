@@ -1,4 +1,5 @@
-import { Pane } from "https://unpkg.com/tweakpane@4.0.3/dist/tweakpane.js";
+import { Pane } from "https://unpkg.com/tweakpane@4.0.5/dist/tweakpane.js";
+import * as TweakpaneEssentialsPlugin from "https://unpkg.com/@tweakpane/plugin-essentials@0.2.1/dist/tweakpane-plugin-essentials.min.js";
 import { LeaderboardPluginBundle } from "../tweakpane-plugin/leaderboard/index.js";
 
 export default class LeaderboardPane {
@@ -9,6 +10,7 @@ export default class LeaderboardPane {
       container: document.getElementById("leaderboard-pane"),
       title: "Main",
     });
+    this.pane.registerPlugin(TweakpaneEssentialsPlugin);
   }
 
   initialise(animator) {
@@ -32,10 +34,21 @@ export default class LeaderboardPane {
     });
 
     this.pane.registerPlugin(LeaderboardPluginBundle);
-    folder.addBinding(this.settings, "leaderboard", {
-      view: "leaderboard",
-      label: undefined,
-      readonly: true,
+    const leaderboardController = folder.addBinding(
+      this.settings,
+      "leaderboard",
+      {
+        view: "leaderboard",
+        label: undefined,
+        readonly: true,
+      }
+    );
+
+    leaderboardController.controller.viewProps.emitter.on("click", (event) => {
+      this.settings.camera.target = event.target;
+      this.settings.camera.mode = 1;
+      this.refresh();
+      animator.updateCamera();
     });
   }
 
@@ -66,12 +79,21 @@ export default class LeaderboardPane {
       cameraTargetController.hidden = event.value !== 1;
     });
 
+    const factor = [1, 5, 25, 50, 100, 1000];
     folder.addBinding(this.settings, "speed", {
-      label: "Speed X",
-      min: 1,
-      max: 1000,
-      step: 1,
+      view: "radiogrid",
+      groupName: "speed",
+      size: [3, 2],
+      cells: (x, y) => {
+        return {
+          title: `${factor[x + y * 3]}x`,
+          value: factor[x + y * 3],
+        };
+      },
+
+      label: "Time factor",
     });
+
     const playButton = folder.addButton({
       title: "Play",
     });
