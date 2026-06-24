@@ -52,7 +52,7 @@ export default class ActivitesPane {
         if (event.last) {
           animator.applyTransformers();
         }
-      });
+      }).hidden = true;
 
     folder
       .addBinding(this.settings.transform, "trimEnd", {
@@ -62,7 +62,7 @@ export default class ActivitesPane {
         if (event.last) {
           animator.applyTransformers();
         }
-      });
+      }).hidden = true;
   }
 
   setupFilter(animator) {
@@ -82,6 +82,15 @@ export default class ActivitesPane {
           label: `Enable`,
         }
       );
+      const colorController = folder.addBinding(
+        this.settings.filter[property],
+        "color",
+        {
+          label: `Color`,
+          disabled: true,
+        }
+      );
+
       const radiusController = folder.addBinding(
         this.settings.filter[property],
         "radius",
@@ -113,10 +122,17 @@ export default class ActivitesPane {
 
       const filter = animator[property + "Filter"];
       onController.on("change", (event) => {
+        colorController.disabled = !event.value;
         radiusController.disabled = !event.value;
         latlngController.disabled = !event.value;
         resetButton.disabled = !event.value;
         filter.setOn(event.value);
+      });
+      colorController.on("change", (event) => {
+        filter.setFill(event.value);
+        if (event.last) {
+          filter.setFill(event.value);
+        }
       });
       radiusController.on("change", (event) => {
         filter.resize(event.value);

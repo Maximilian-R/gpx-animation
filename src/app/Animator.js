@@ -21,9 +21,9 @@ export default class Animator {
     this.currentTime;
     this.lastTime = 0;
 
-    this.startFilter = new RadiusFilter(this.map, this, "start", "#66ebce");
-    this.throughFilter = new RadiusFilter(this.map, this, "through", "#b466eb");
-    this.endFilter = new RadiusFilter(this.map, this, "end", "#ee64c7");
+    this.startFilter = new RadiusFilter(this.map, this, "start");
+    this.throughFilter = new RadiusFilter(this.map, this, "through");
+    this.endFilter = new RadiusFilter(this.map, this, "end");
     this.dateFilter = new DateRangeFilter(this, "date");
 
     this.map.on("mousedown", () => {

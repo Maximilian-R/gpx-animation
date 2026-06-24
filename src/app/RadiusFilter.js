@@ -1,14 +1,14 @@
 import SETTINGS from "./Settings.js";
 
 export default class RadiusFilter {
-  constructor(map, animator, property, fill) {
+  constructor(map, animator, property) {
     this.map = map;
     this.animator = animator;
     this.settings = SETTINGS.filter[property];
 
     this.marker = L.circle(this.map.getCenter(), {
       radius: this.settings.radius,
-      color: fill,
+      color: this.settings.color,
       weight: 4,
       fillOpacity: 0.2,
       dashArray: 16,
@@ -27,7 +27,7 @@ export default class RadiusFilter {
       this.map.dragging.enable();
       this.map.off("mousemove", onMove);
       this.animator.applyFilter();
-      this.animator.paneManager.settingsPane.refresh();
+      this.animator.paneManager.activitesPane.refresh();
     });
   }
 
@@ -47,6 +47,10 @@ export default class RadiusFilter {
     if (state) this.add();
     else this.remove();
     this.animator.applyFilter();
+  }
+
+  setFill(color) {
+    this.marker.setStyle({ color: color });
   }
 
   setRadius(radius) {
@@ -81,7 +85,8 @@ export default class RadiusFilter {
       lat: this.map.getCenter().lat,
       lng: this.map.getCenter().lng,
     });
-    this.animator.paneManager.settingsPane.refresh();
+
+    this.animator.paneManager.activitesPane.refresh();
   }
 
   remove() {

@@ -22,16 +22,19 @@ const SETTINGS = {
       on: false,
       latlng: { x: 0, y: 0 },
       radius: 500,
+      color: "#66ebce",
     },
     through: {
       on: false,
       latlng: { x: 0, y: 0 },
       radius: 500,
+      color: "#b466eb",
     },
     end: {
       on: false,
       latlng: { x: 0, y: 0 },
       radius: 500,
+      color: "#ee64c7",
     },
   },
   transform: {
