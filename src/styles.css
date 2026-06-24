@@ -3,13 +3,6 @@ body {
   margin: 0;
 }
 
-#settings-pane {
-  z-index: 1000;
-  position: fixed;
-  bottom: 4rem;
-  right: 1rem;
-}
-
 #activites-pane {
   z-index: 1000;
   position: fixed;

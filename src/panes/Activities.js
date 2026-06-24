@@ -2,8 +2,9 @@ import { Pane } from "https://unpkg.com/tweakpane@4.0.5/dist/tweakpane.js";
 import { FileUploadPluginBundle } from "../tweakpane-plugin/file-upload/index.js";
 
 export default class ActivitesPane {
-  constructor(settings) {
+  constructor(settings, map) {
     this.settings = settings;
+    this.map = map;
 
     this.pane = new Pane({
       container: document.getElementById("activites-pane"),
@@ -15,6 +16,7 @@ export default class ActivitesPane {
     this.setupTransforms(animator);
     this.setupFilter(animator);
     this.setupUpload(animator);
+    this.setupRender(animator);
   }
 
   refresh() {
@@ -65,7 +67,7 @@ export default class ActivitesPane {
 
   setupFilter(animator) {
     const filtersFolder = this.pane.addFolder({
-      title: "Filters",
+      title: "Filter activites",
     });
 
     const createLocationFilter = (property, name) => {
@@ -199,5 +201,29 @@ export default class ActivitesPane {
         ? animator.paneManager.disable()
         : animator.paneManager.enable();
     });
+  }
+
+  setupRender(animator) {
+    const folder = this.pane.addFolder({ title: "Map" });
+
+    folder
+      .addBinding(this.settings.render, "paths", { label: "Render paths" })
+      .on("change", () => {
+        animator.applyFilter();
+      });
+
+    folder
+      .addBinding(this.settings, "theme", {
+        label: "Theme",
+        options: {
+          ["Dark Matter"]: 0,
+          ["Positron"]: 1,
+          ["Dark Matter Brown"]: 2,
+          ["OSM Bright"]: 3,
+        },
+      })
+      .on("change", (event) => {
+        this.map.setTileLayer(event.value);
+      });
   }
 }

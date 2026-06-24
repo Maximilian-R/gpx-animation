@@ -1,7 +1,6 @@
 import SETTINGS from "../app/Settings.js";
 import TimelinePane from "./Timeline.js";
 import LeaderboardPane from "./Leaderboard.js";
-import SettingsPane from "./Settings.js";
 import ActivitesPane from "./Activities.js";
 
 export default class PaneManager {
@@ -9,17 +8,11 @@ export default class PaneManager {
     this.map = map;
     this.settings = SETTINGS;
 
-    this.settingsPane = new SettingsPane(this.settings, this.map);
-    this.activitesPane = new ActivitesPane(this.settings);
+    this.activitesPane = new ActivitesPane(this.settings, this.map);
     this.leaderboardPane = new LeaderboardPane(this.settings);
     this.timelinePane = new TimelinePane(this.settings);
 
-    this.panes = [
-      this.settingsPane,
-      this.activitesPane,
-      this.leaderboardPane,
-      this.timelinePane,
-    ];
+    this.panes = [this.activitesPane, this.leaderboardPane, this.timelinePane];
   }
 
   refresh() {
